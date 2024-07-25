@@ -5,14 +5,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ConnectionTest.jsp : JDBC연결 테스트용</title>
+<title>webxmlAPPJDBCTest : application만 사용 </title>
 </head>
 <body>
-	<h2>JDBC test1 - 생성자편</h2>
-	<%
-		JDBConnect jdbConnect = new JDBConnect(); // 1단계, 2단계 
-		jdbConnect.close(); // 5단계
-	%>
+	<h2> JDBC 연결 테스트 (application) </h2>
 	
+	<%
+	JDBConnect jdbc = new JDBConnect(application);
+	jdbc.close();
+	%>
+
 </body>
 </html>

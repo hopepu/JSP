@@ -28,7 +28,7 @@
 			width:270px; height:100px; background-color: gray;
 		}
 		div#popup>div{
-			position: relative; background-color: #ffffff;
+			pos ition: relative; background-color: #ffffff;
 			border : 1px solid gray; padding : 10px ; color : black; 
 		}
 	</style><!-- css3를 적용하는 블럭 : 색, 크기, 도형 -->
