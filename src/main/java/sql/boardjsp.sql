@@ -49,3 +49,6 @@ insert into board(num, title, contents, id, postdate, visitcount)
 
 select * from BOARD;
 select * from MEMBER;
+delete from MEMBER where id='1234';
+
+select count(*) from board where title like '%제목%';

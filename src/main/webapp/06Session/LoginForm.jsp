@@ -7,7 +7,7 @@
 <title>LoginForm.jsp : 로그인 창(성공->세션에 저장)</title>
 </head>
 <body>
-	<%-- <jsp:include page="../Common/Link.jsp" /> --%>
+	<jsp:include page="../Common/Link.jsp" />
 	<h2>로그인 페이지</h2>
 	<span style="color: red; font-size: 1.2em;">
 	<%= request.getAttribute("LoginErrMsg") == null ? "" : request.getAttribute("LoginErrMsg") %>
