@@ -3,6 +3,12 @@ package model1.board;
 import java.sql.Date;
 
 public class BoardDTO {
+	@Override //객체를 문자열로 변환하여 콘솔 출력
+	public String toString() {
+		return "BoardDTO [num=" + num + ", title=" + title + ", contents=" + contents + ", id=" + id + ", postdate="
+				+ postdate + ", visitcount=" + visitcount + ", name=" + name + "]";
+	}
+
 	//필드
 	private String num;
 	private String title;

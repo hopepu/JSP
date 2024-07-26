@@ -49,3 +49,4 @@ function validateForm(form) {  // 폼 내용 검증
             </td>
         </tr>
     </table>
+    </form>
