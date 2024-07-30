@@ -49,7 +49,7 @@ public class BoardDAO extends JDBConnect{
 		List<BoardDTO> listBoardDTO = new Vector<BoardDTO>();
 		//3단계
 		String query = "select * from board ";
-		if(map.get("serachWord")!=null) {
+		if(map.get("searchWord")!=null) {
 			query += "where " + map.get("searchField") + " like '%" + map.get("serachWord") + "%'";
 		}
 		query += " order by num desc";//정렬기준 추가
@@ -79,6 +79,45 @@ public class BoardDAO extends JDBConnect{
 				
 		return listBoardDTO;
 	}
+	//게시물의 리스트를 페이징 출력
+		public List<BoardDTO> selectListPaging(Map<String, Object> map){
+			//map->searchField, searchWord, start, end
+			List<BoardDTO> listBoardDTO = new Vector<BoardDTO>();//멀티스레드용
+			//3단계			
+			String query = "select * from (select Tb.*, rownum rNum from (select * from board ";
+			if(map.get("searchWord")!=null) {
+				query += "where " + map.get("searchField") + " like '%" + map.get("serachWord") + "%'";
+			}
+			query += " order by num desc)Tb) where rNum between ? and ?";//정렬기준 추가
+			//3단계 쿼리문 완성
+			
+			try {
+				preparedStatement = connection.prepareStatement(query);//쿼리문 생성
+				preparedStatement.setString(1, map.get("start").toString());//시작번호
+				preparedStatement.setString(2, map.get("end").toString());
+				
+				resultSet = preparedStatement.executeQuery();
+				
+				while(resultSet.next()) {
+					BoardDTO boardDTO = new BoardDTO();
+					boardDTO.setNum(resultSet.getString("num"));
+					boardDTO.setId(resultSet.getString("id"));
+					boardDTO.setTitle(resultSet.getString("title"));
+					boardDTO.setContents(resultSet.getString("contents"));
+					boardDTO.setPostdate(resultSet.getDate("postdate"));
+					boardDTO.setVisitcount(resultSet.getString("visitcount")); // 객체에 값 삽입 완료
+					
+					listBoardDTO.add(boardDTO); // 위에서 만든 객체를 리스트에 넣음
+					
+				}//while문 종료
+			} catch (SQLException e) {
+				System.out.println("BoardDAO.selectList() 메서드 오류");
+				System.out.println("board 테이블 모든 리스트 출력 오류");
+				e.printStackTrace();
+			}
+					
+			return listBoardDTO;
+		}
 	//게시글 등록용 메서드
 	public int insertWrite(BoardDTO dto) {
 		int result = 0;

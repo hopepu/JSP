@@ -1,3 +1,4 @@
+<%@page import="utils.BoardPage"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="model1.board.BoardDTO"%>
 <%@page import="java.util.List"%>
@@ -16,8 +17,33 @@ if (searchWord != null) {//검색어가 있으면
 	param.put("searchWord", searchWord);
 }
 
-List<BoardDTO> boardLists = boardDAO.selectList(param); //검색조건을 파라미터로 dao로 넘어가고 결과는 list로 받음
 int totalCount = boardDAO.selectCount(param); //검색조건을 파라미터로 dao로 넘어가고 게시물 수를 int로 받음.
+//paging 1단계
+//전체 페이지수 계산
+int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));
+// 현재 페이지에 보여줄 리스트 개수 10
+int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));
+// 한 화면에 보여줄 블럭 수 5
+int totalPage = (int)Math.ceil((double)totalCount / pageSize); //paging 2단계
+// totalPage = 105/10 = 10.5 -> 11 ->3단계
+
+int pageNum = 1; //무조건 처음 페이지는 1
+String pageTemp = request.getParameter("pageNum");
+if(pageTemp != null && !pageTemp.equals("")){//url로 넘어온 값이 있으면
+	pageNum = Integer.parseInt(pageTemp);//요청받은 페이지로 적용
+}
+
+//목록에 출력할 게시물 범위 계산  paging 3단계
+int start = (pageNum-1)*pageSize + 1;//첫 게시물 번호
+int end = pageNum*pageSize; // 마지막게시물 번호
+
+	param.put("start", start); //map을 통해 검색조건과 같은 타입으로 전달
+	param.put("end", end);
+
+	//param -> searchField, searchWord start, end가 전달된다.
+
+List<BoardDTO> boardLists = boardDAO.selectListPaging(param); //검색조건을 파라미터로 dao로 넘어가고 결과는 list로 받음
+
 boardDAO.close(); //5단계 종료
 %>
 <!DOCTYPE html>
@@ -68,8 +94,12 @@ boardDAO.close(); //5단계 종료
 		<%
 		} else {//등록된 게시물이 있으면,
 		int virtualNum = 0; //화면 출력용 번호
+		
+		int countNum = 0; //페이징 처리용 개선
+		
 		for (BoardDTO dto : boardLists) {// boardLists dao에서 받은 결과물
-			virtualNum = totalCount--;//게시물의 총개수에서 1씩 빠지며 숫자 입력
+			//virtualNum = totalCount--;//게시물의 총개수에서 1씩 빠지며 숫자 입력
+			virtualNum = totalCount - (((pageNum-1)*pageSize)+countNum++);
 		%>
 		<tr>
 			<td><%=virtualNum%></td>
@@ -89,15 +119,16 @@ boardDAO.close(); //5단계 종료
 	<!-- 글쓰기 테이블 -->
 	
 	<table border="1" width="90%">
-		<tr align="right">
+		<tr align="center">
+			<td>
+			<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI())%>
+			<!--  						105			10		  5			6						-->
+			<!-- [첫 페이지] [이전 블록] 6  7  8  9  10 [다음 블록] [마지막 페이지] -->
+			</td>
 			<td>
 				<button type="button" onclick="location.href='Write.jsp'">글쓰기</button>
 			</td>
 		</tr>
-	
-	
-	
-	
 	</table>
 
 

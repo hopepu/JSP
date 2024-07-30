@@ -46,6 +46,8 @@ insert into board(num, title, contents, id, postdate, visitcount)
 		values (seq_board_num.nextval, '제목4', '내용4', 'kkw', sysdate, 0);
 insert into board(num, title, contents, id, postdate, visitcount)
 		values (seq_board_num.nextval, '제목5', '내용5', 'kkw', sysdate, 0);
+		
+
 
 select * from BOARD;
 select * from MEMBER;
@@ -56,3 +58,5 @@ select count(*) from board where title like '%제목%';
 select B.*, M.* from member M inner join board B on M.id = B.id where num = 2;
 
 update board set visitcount = visitcount+1 where num=2;
+
+select * from (select Tb.*, rownum rNum from (select * from board order by num desc	) Tb) where rNum between 1 and 10;

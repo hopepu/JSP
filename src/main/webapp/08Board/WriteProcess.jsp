@@ -16,6 +16,13 @@
 	
 	BoardDAO boardDAO = new BoardDAO(application);//1,2 단계
 	int result = boardDAO.insertWrite(boardDTO);//3,4 단계
+	/* int result = 0;
+	  for(int i=1 ; i<100 ;i++){
+		boardDTO.setTitle(title+"-"+i);
+		boardDTO.setContents(contents+"-"+i);
+		result = boardDAO.insertWrite(boardDTO);
+	} */
+		
 	boardDAO.close();//5 단계
 	if(result==1){
 		// insert 결과값이 1이면 성공
