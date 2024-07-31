@@ -23,7 +23,7 @@ public class BoardDAO extends JDBConnect{
 		String query = "select count(*) from board ";
 		if(map.get("searchWord")!=null) {
 			//검색어가 있으면
-			query += "where " + map.get("searchField") + " like '%" + map.get("serachWord") + "%'";
+			query += "where " + map.get("searchField") + " like '%" + map.get("searchWord") + "%'";
 			// searchField : 제목, 내용, 작성자
 			// searchWord : input text로 넘어온 글자
 			// select count(*) from board where 제목 like '%딸기%';

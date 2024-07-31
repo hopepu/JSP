@@ -24,7 +24,7 @@
     	&nbsp;&nbsp;&nbsp;&nbsp;
     	<a href="../08Board/List.jsp">회원용 게시판</a>
     	&nbsp;&nbsp;&nbsp;&nbsp;
-    	<a href="../09File/List.jsp">파일 게시판</a>
+    	<a href="../12FileUploadMain/FileList.jsp">자료 게시판</a>
     	&nbsp;&nbsp;&nbsp;&nbsp;
     	<a href="../10Mvc/List.jsp">서블릿 게시판</a>
     	&nbsp;&nbsp;&nbsp;&nbsp;
